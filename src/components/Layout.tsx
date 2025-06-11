@@ -3,7 +3,7 @@
 import React from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
-import { Brain, Home, BarChart3, Users, LogOut, User } from 'lucide-react';
+import { Brain, Home, Users, LogOut, User , Heart , TrendingUp } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -12,10 +12,12 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { data: session } = useSession();
 
-  const navigation = [
+   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: Home },
-    { name: 'Analytics', href: '/analytics', icon: BarChart3 },
-    { name: 'Community', href: '/community', icon: Users },
+    { name: 'Mood Log', href: '/mood', icon: Heart },
+    { name: 'Predictions', href: '/predictions', icon: TrendingUp },
+    { name: 'Community', href: '/community', icon: Users }
+  
   ];
 
   return (

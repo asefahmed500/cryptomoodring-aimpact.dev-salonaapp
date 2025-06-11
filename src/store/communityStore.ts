@@ -4,9 +4,10 @@ interface CommunityPost {
   id: string;
   userId: string;
   username: string;
-  avatar?: string;
   content: string;
-  type: 'insight' | 'prediction' | 'discussion' | 'analysis';
+  mood: number;
+  marketSentiment: 'bullish' | 'bearish' | 'neutral';
+  cryptoSymbol?: string;
   tags: string[];
   likes: string[];
   comments: {
@@ -16,7 +17,6 @@ interface CommunityPost {
     content: string;
     createdAt: string;
   }[];
-  sentiment: 'bullish' | 'bearish' | 'neutral';
   createdAt: string;
 }
 
@@ -42,9 +42,11 @@ export const useCommunityStore = create<CommunityState>((set, get) => ({
         const data = await response.json();
         set({ posts: data.posts, isLoading: false });
       } else {
+        console.error('Failed to fetch posts');
         set({ isLoading: false });
       }
     } catch (error) {
+      console.error('Error fetching posts:', error);
       set({ isLoading: false });
     }
   },
@@ -64,8 +66,10 @@ export const useCommunityStore = create<CommunityState>((set, get) => ({
         }));
         return true;
       }
+      console.error('Failed to create post');
       return false;
     } catch (error) {
+      console.error('Error creating post:', error);
       return false;
     }
   },
@@ -85,8 +89,10 @@ export const useCommunityStore = create<CommunityState>((set, get) => ({
         }));
         return true;
       }
+      console.error('Failed to toggle like');
       return false;
     } catch (error) {
+      console.error('Error toggling like:', error);
       return false;
     }
   },
@@ -108,8 +114,10 @@ export const useCommunityStore = create<CommunityState>((set, get) => ({
         }));
         return true;
       }
+      console.error('Failed to add comment');
       return false;
     } catch (error) {
+      console.error('Error adding comment:', error);
       return false;
     }
   },
